@@ -201,6 +201,14 @@ def build_doc(md_text: str) -> Document:
             h.runs[0].font.size = Pt(10)
         elif line == '---':
             doc.add_paragraph()
+        elif re.match(r'^\s*[-*]\s+', line):
+            text = re.sub(r'^\s*[-*]\s+', '', line)
+            p = doc.add_paragraph(style='List Bullet')
+            add_runs(p, text.strip(), base_size=10)
+        elif re.match(r'^\s*\d+\.\s+', line):
+            text = re.sub(r'^\s*\d+\.\s+', '', line)
+            p = doc.add_paragraph(style='List Number')
+            add_runs(p, text.strip(), base_size=10)
         elif line.strip():
             p = doc.add_paragraph()
             add_runs(p, line.strip(), base_size=10)
